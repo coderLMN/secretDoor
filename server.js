@@ -29,10 +29,10 @@ if (process.env.MONGOLAB_URI) {
     uri = process.env.MONGOLAB_URI;
 }
 var db;
-MongoClient.connect(uri, {server: {auto_reconnect: true}}, function (err, mongo) {
-    if (err) console.log(err);
-    db = mongo;
-});
+//MongoClient.connect(uri, {server: {auto_reconnect: true}}, function (err, mongo) {
+//    if (err) console.log(err);
+//    db = mongo;
+//});
 
 app.get('/', function (req, res) {
     res.sendFile('index.html');
