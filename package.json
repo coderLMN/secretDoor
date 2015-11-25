@@ -1,0 +1,14 @@
+{
+  "name": "sd",
+  "version": "0.0.0",
+  "description": "shudong",
+  "private": true,
+  "scripts": {
+    "start": "node server"
+  },
+  "repository": "",
+  "author": "noone",
+  "dependencies": {
+    "express": "~4.10.4"
+  }
+}

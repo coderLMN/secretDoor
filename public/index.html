@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Secret Door</title>
+	<style>
+		body {
+			margin: 0;
+		}
+		.input {
+			bottom: 0;
+			position:fixed;
+			width: 100%;
+			padding: 1%;
+			height: 12%;
+			z-index: 100;
+			background-color: white;
+			border-top: 1px solid darkorange;
+			display: inline-flex;
+		}
+		#show {
+			margin-left: 10%;
+			width: 80%;
+			z-index:1;
+			padding-bottom: 10%;
+			word-wrap: break-word;
+		}
+		#show p {
+			background-color: aliceblue;
+			padding: 6px;
+			border: lightskyblue 1px solid;
+			color: darkslategray;
+		}
+		input, button{
+			border-top: 1px solid #96d1f8;
+			background: #3e779d;
+			padding: 5px 10px;
+			-webkit-border-radius: 8px;
+			-moz-border-radius: 8px;
+			border-radius: 8px;
+			color: white;
+			font-size: 14px;
+			text-decoration: none;
+			vertical-align: middle;
+			margin-left: 8px;
+		}
+		#text {
+			width : 80%;
+			margin-left: 8%;
+			background-color: lightyellow;
+			color: darkslategray;
+			border: 1px solid gold;
+			padding: 6px;
+		}
+		button {
+			position: fixed;
+			top: 5%;
+			left:1%;
+			background: darkslateblue;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="input">
+		<textarea rows="2" placeholder="Your secret talk ......" id="text" name="words"></textarea>
+		<input type="submit" value="OK" onclick="talk();">
+	</div>
+	<div id="show"></div>
+	<button onclick="getWords()">refresh</button>
+	<script>
+		var xmlhttp;
+		if(window.XMLHttpRequest){
+			xmlhttp = new XMLHttpRequest();
+		}
+		else {
+			xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+		}
+		var input = document.getElementById('text');
+		var show  = document.getElementById('show');
+
+		function talk(){
+			xmlhttp.open('POST', '/text', true);
+			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xmlhttp.send("w=" + encodeURIComponent(input.value));
+			xmlhttp.onreadystatechange = function(){
+				if(xmlhttp.readyState == 4){
+					input.value =  '';
+					getWords();
+				}
+			}
+		}
+
+		function getWords() {
+			xmlhttp.open('GET', '/text', true);
+			xmlhttp.send();
+			xmlhttp.onreadystatechange = function(){
+				show.innerHTML = '';
+				if(xmlhttp.readyState == 4){
+					var texts = JSON.parse(xmlhttp.responseText);
+					var count = texts.length;
+					for(var i=0; i<count; i++){
+						var words = document.createElement("p");
+						words.innerHTML = texts[i];
+						show.appendChild(words);
+					}
+				}
+			}
+		}
+		getWords();
+
+	</script>
+</body>
+</html>
