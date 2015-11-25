@@ -65,7 +65,8 @@
 
 <body>
 	<div class="input">
-		<textarea rows="2" placeholder="Your secret talk ......" id="text" name="words"></textarea>
+		<i id="count"></i>
+		<textarea rows="2" placeholder="Your secret talk ......" id="text" name="words" onkeyup="count();"></textarea>
 		<input type="submit" value="OK" onclick="talk();">
 	</div>
 	<div id="show"></div>
@@ -80,7 +81,15 @@
 		}
 		var input = document.getElementById('text');
 		var show  = document.getElementById('show');
+		var len = document.getElementById('count');
 
+		function count(){
+			len.innerHTML = input.value.length;
+			if(input.value.length < 1024)
+				len.style.color = 'green';
+			else
+				len.style.color = 'red';
+		}
 		function talk(){
 			xmlhttp.open('POST', '/text', true);
 			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
