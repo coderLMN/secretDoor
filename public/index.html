@@ -21,7 +21,7 @@
 			display: inline-flex;
 		}
 		#show {
-			margin-left: 10%;
+			margin-left: 15%;
 			width: 80%;
 			z-index:1;
 			padding-bottom: 10%;
@@ -33,10 +33,10 @@
 			border: lightskyblue 1px solid;
 			color: darkslategray;
 		}
-		input, button{
+		input {
 			border-top: 1px solid #96d1f8;
 			background: #3e779d;
-			padding: 5px;
+			padding: 5px 10px;
 			-webkit-border-radius: 8px;
 			-moz-border-radius: 8px;
 			border-radius: 8px;
@@ -58,7 +58,12 @@
 			position: fixed;
 			top: 5%;
 			left:5px;
-			background: darkslateblue;
+			width: 30px;
+			height: 30px;
+			text-align: center;
+			background: none;
+			border: none;
+			padding: 0;
 		}
 	</style>
 </head>
@@ -70,7 +75,7 @@
 		<input type="submit" value="OK" onclick="talk();">
 	</div>
 	<div id="show"></div>
-	<button onclick="getWords()">refresh</button>
+	<button onclick="getWords()"><img src="reload.png" width="25px"></button>
 	<script>
 		var xmlhttp;
 		if(window.XMLHttpRequest){
@@ -85,7 +90,7 @@
 
 		function count(){
 			len.innerHTML = input.value.length;
-			if(input.value.length < 1024)
+			if(input.value.length < 256)
 				len.style.color = 'green';
 			else
 				len.style.color = 'red';
@@ -106,15 +111,15 @@
 			xmlhttp.open('GET', '/text', true);
 			xmlhttp.send();
 			xmlhttp.onreadystatechange = function(){
-				show.innerHTML = '';
+				var newWords = '';
+				len.innerHTML = '';
 				if(xmlhttp.readyState == 4){
 					var texts = JSON.parse(xmlhttp.responseText);
 					var count = texts.length;
 					for(var i=0; i<count; i++){
-						var words = document.createElement("p");
-						words.innerHTML = texts[i];
-						show.appendChild(words);
+						newWords += '<p>'+texts[i]+'</p>' ;
 					}
+					show.innerHTML = newWords;
 				}
 			}
 		}

@@ -43,8 +43,8 @@ app.post('/text', function(req,res){
     var size = Object.keys(record).length;
     res.setHeader('Content-Type', 'application/json; charset="utf-8"');
     if (record.w && size == 1) {
-        if(record.w.length > 1024)
-            record.w = record.w.substring(0,1024);
+        if(record.w.length > 256)
+            record.w = record.w.substring(0,256);
         record.w = safe_tags_replace(record.w);
         db.collection('quote').insert(record, function (err, result) {
             res.end(JSON.stringify({status: 'ok'}));
