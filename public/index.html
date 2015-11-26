@@ -45,6 +45,8 @@
 			text-decoration: none;
 			vertical-align: middle;
 			margin-left: 8px;
+			outline: none;
+			min-height: 15px;
 		}
 		#text {
 			width : 80%;
@@ -63,8 +65,17 @@
 			text-align: center;
 			background: none;
 			border: none;
+			outline: none;
 			padding: 0;
 		}
+		.loading {
+			-webkit-animation:spin 3s linear infinite;
+			-moz-animation:spin 3s linear infinite;
+			animation:spin 3s linear infinite;
+		}
+		@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+		@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+		@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 	</style>
 </head>
 
@@ -75,7 +86,7 @@
 		<input type="submit" value="OK" onclick="talk();">
 	</div>
 	<div id="show"></div>
-	<button onclick="getWords()"><img src="reload.png" width="25px"></button>
+	<button onclick="getWords()"><img src="reload.png" width="25px" id="refresh"></button>
 	<script>
 		var xmlhttp;
 		if(window.XMLHttpRequest){
@@ -87,6 +98,7 @@
 		var input = document.getElementById('text');
 		var show  = document.getElementById('show');
 		var len = document.getElementById('count');
+		var img = document.getElementById('refresh');
 
 		function count(){
 			len.innerHTML = input.value.length;
@@ -106,8 +118,8 @@
 				}
 			}
 		}
-
 		function getWords() {
+			img.className = 'loading';
 			xmlhttp.open('GET', '/text', true);
 			xmlhttp.send();
 			xmlhttp.onreadystatechange = function(){
@@ -120,11 +132,11 @@
 						newWords += '<p>'+texts[i]+'</p>' ;
 					}
 					show.innerHTML = newWords;
+					img.className = '';
 				}
 			}
 		}
 		getWords();
-
 	</script>
 </body>
 </html>

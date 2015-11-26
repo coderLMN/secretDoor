@@ -1,9 +1,7 @@
 var express = require("express"),
     path = require('path'),
     bodyParser = require('body-parser');
-var MongoClient = require('mongodb').MongoClient
-    , ObjectID = require('mongodb').ObjectID
-    , format = require('util').format;
+var MongoClient = require('mongodb').MongoClient;
 var app = express();
 
 var tagsToReplace = {
