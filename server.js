@@ -1,7 +1,8 @@
 var express = require("express"),
     path = require('path'),
     bodyParser = require('body-parser');
-var MongoClient = require('mongodb').MongoClient;
+var MongoClient = require('mongodb').MongoClient
+    , ObjectID = require('mongodb').ObjectID;
 var app = express();
 
 var tagsToReplace = {
@@ -44,9 +45,21 @@ app.post('/text', function(req,res){
         if(record.w.length > 256)
             record.w = record.w.substring(0,256);
         record.w = safe_tags_replace(record.w);
-        db.collection('quote').insert(record, function (err, result) {
-            res.end(JSON.stringify({status: 'ok'}));
-        });
+        db.collection('quote').findOne({'w': record.w}, function(err, data){
+            if(data) {
+                db.collection('quote').remove({'w': record.w}, function(err, result){
+                    db.collection('quote').insert(record, function (err, result) {
+                        res.end(JSON.stringify({status: 'dup'}));
+                    });
+                });
+            }
+            else {
+                db.collection('quote').insert(record, function (err, result) {
+                    res.end(JSON.stringify({status: 'ok'}));
+                });
+            }
+        })
+
     }
     else {
         res.end(JSON.stringify({status: 'fail'}));
