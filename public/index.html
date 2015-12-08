@@ -58,8 +58,8 @@
 		}
 		button {
 			position: fixed;
-			top: 5%;
-			left:5px;
+			top: 10%;
+			left:6px;
 			width: 30px;
 			height: 30px;
 			text-align: center;
@@ -76,15 +76,51 @@
 		@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 		@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 		@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+		span {
+			margin-left: 25%;
+		}
+		.halfStyle {
+			position:relative;
+			display:inline-block;
+			font-size:40px; /* or any font size will work */
+			color: red; /* or transparent, any color */
+			overflow:hidden;
+			white-space: pre; /* to preserve the spaces from collapsing */
+		}
+		.halfStyle:before {
+			display:block;
+			z-index:1;
+			position:absolute;
+			top:0;
+			left:0;
+			width: 67%;
+			content: attr(data-content); /* dynamic content for the pseudo element */
+			overflow:hidden;
+			color: darkgoldenrod;
+		}
+		.halfStyle:after {
+			display:block;
+			z-index:1;
+			position:absolute;
+			top:0;
+			left:0;
+			width: 33%;
+			content: attr(data-content); /* dynamic content for the pseudo element */
+			overflow:hidden;
+			color: green;
+		}
 	</style>
 </head>
 
 <body>
 	<div class="input">
 		<i id="count"></i>
-		<textarea rows="2" placeholder="Pain is inevitable. Suffering is optional. -- Haruki Murakami" id="text" name="words" onkeyup="count();"></textarea>
+		<textarea rows="2" placeholder="Most good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program. -- Linus Torvalds" id="text" name="words" onkeyup="count();"></textarea>
 		<input type="submit" value="OK" onclick="talk();">
 	</div>
+
+	<span class="halfStyle" data-content="树">树</span>
+	<span class="halfStyle" data-content="洞">洞</span>
 	<div id="show"></div>
 	<button onclick="getWords()"><img src="reload.png" width="25px" id="refresh"></button>
 	<script>
