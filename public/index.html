@@ -79,6 +79,8 @@
 		span {
 			margin-left: 25%;
 		}
+		/*This half style effect is based from the answer in*/
+		/*http://stackoverflow.com/questions/23569441/is-it-possible-to-apply-css-to-half-of-a-character*/
 		.halfStyle {
 			position:relative;
 			display:inline-block;
@@ -111,14 +113,12 @@
 		}
 	</style>
 </head>
-
 <body>
 	<div class="input">
 		<i id="count"></i>
 		<textarea rows="2" placeholder="Most good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program. -- Linus Torvalds" id="text" name="words" onkeyup="count();"></textarea>
 		<input type="submit" value="OK" onclick="talk();">
 	</div>
-
 	<span class="halfStyle" data-content="树">树</span>
 	<span class="halfStyle" data-content="洞">洞</span>
 	<div id="show"></div>
